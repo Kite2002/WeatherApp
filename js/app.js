@@ -7,7 +7,6 @@ const icon = document.querySelector('.icon img');
 
 
 const updateUi = (data)=>{
-  console.log(data);
   const cityDet =  data.cityDet;
   const weather = data.weather;
 
@@ -30,10 +29,7 @@ const updateUi = (data)=>{
 
 
   let iconSrc = `img/icons/${weather.WeatherIcon}.svg`;
-  console.log(iconSrc)
   icon.setAttribute('src' , iconSrc)
-
-  icon.setAttribute('src', iconSrc)
 
   if(card.classList.contains('d-none')){
     card.classList.remove('d-none')
@@ -64,4 +60,16 @@ cityForm.addEventListener('submit' , e =>{
     .catch(err =>{
       console.log(err);
     });
+
+    localStorage.setItem('city' , city)
 })
+
+if(localStorage.getItem('city')){
+  updateCity(localStorage.getItem('city'))
+  .then(data=>{
+    updateUi(data)
+  })
+  .catch(err=>{
+    console.log(err);
+  })
+}
