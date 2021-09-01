@@ -5,6 +5,9 @@ const time = document.querySelector('img.time')
 const icon = document.querySelector('.icon img');
 
 
+const forecast = new Forecast
+
+
 
 const updateUi = (data)=>{
   const cityDet =  data.cityDet;
@@ -36,24 +39,12 @@ const updateUi = (data)=>{
   }
 }
 
-const updateCity = async (city)=>{
-
-  const cityDet = await getCity(city);
-  const weather = await getWeather(cityDet.Key);
-
-  return {
-    cityDet : cityDet,
-    weather : weather
-  }
-}
-
 cityForm.addEventListener('submit' , e =>{
   e.preventDefault();
-  
   const city = cityForm.city.value.trim();
   cityForm.reset();
 
-  updateCity(city)
+  forecast.updateCity(city)
     .then(data =>{
      updateUi(data);
     })
@@ -65,7 +56,7 @@ cityForm.addEventListener('submit' , e =>{
 })
 
 if(localStorage.getItem('city')){
-  updateCity(localStorage.getItem('city'))
+  forecast.updateCity(localStorage.getItem('city'))
   .then(data=>{
     updateUi(data)
   })
